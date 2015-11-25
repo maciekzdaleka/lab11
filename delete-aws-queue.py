@@ -10,6 +10,7 @@ from boto.sqs.connection import SQSConnection
 from boto.exception import SQSError
 import sys
 import urllib2
+import pprint
 
 # Get the keys from a specific url and then use them to connect to AWS Service
 
@@ -29,16 +30,15 @@ secret_access_key = result[1]
 # Set up a connection to the AWS service.
 conn = boto.sqs.connect_to_region("eu-west-1", aws_access_key_id=access_key_id, aws_secret_access_key=secret_access_key)
 
-#student_number = 'C13470112'
+student_number = 'C13470112'
 #conn.delete_queue(sys.argv[1])
 
 # Get a list of the queues that exists and then print the list out
 rs = conn.get_all_queues()
-
-for q in rs:
-        if (q.id==sys.argv[1]):
-		print "deleting..."
-		conn.delete_queue(q)
+#Delete
+queue = conn.get_queue(student_number+sys.argv[1])
+conn.delete_queue(queue)
+print "Queue deleted " + sys.argv[1]
 
 
 		
